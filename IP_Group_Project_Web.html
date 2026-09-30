@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Group Project - Python Examination System</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            padding: 25px;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 24px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-submit {
+            background-color: #27ae60;
+        }
+
+        .btn-submit:hover {
+            background-color: #219150;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .question-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .options label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 6px;
+            cursor: pointer;
+        }
+
+        .options label:hover {
+            background-color: #edf2f7;
+        }
+
+        .user-info-bar {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .result-box {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .result-status {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .pass { color: #27ae60; }
+        .fail { color: #e74c3c; }
+
+        .score-card {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Python Online Examination</h1>
+        <p>Informatics Practices Group Project</p>
+    </div>
+
+    <!-- Screen 1: Welcome & Details -->
+    <div id="screen-welcome" class="screen active">
+        <div class="form-group">
+            <label for="name">Student Name</label>
+            <input type="text" id="name" placeholder="Enter your full name">
+        </div>
+        <div class="form-group">
+            <label for="roll">Roll Number</label>
+            <input type="text" id="roll" placeholder="Enter your roll number">
+        </div>
+        <button class="btn" onclick="startExam()">Start Examination</button>
+    </div>
+
+    <!-- Screen 2: Exam Questions -->
+    <div id="screen-exam" class="screen">
+        <div class="user-info-bar">
+            <span id="display-name"></span>
+            <span id="display-roll"></span>
+        </div>
+
+        <h3 style="margin-bottom: 15px; color: #2c3e50;">Q1) Multiple Choice Questions</h3>
+
+        <!-- MCQ 1 -->
+        <div class="question-card">
+            <div class="question-title">1. Which symbol is used to write a comment in Python?</div>
+            <div class="options">
+                <label><input type="radio" name="mcq1" value="1"> 1. //</label>
+                <label><input type="radio" name="mcq1" value="2"> 2. #</label>
+                <label><input type="radio" name="mcq1" value="3"> 3. /**/</label>
+                <label><input type="radio" name="mcq1" value="4"> 4. --</label>
+            </div>
+        </div>
+
+        <!-- MCQ 2 -->
+        <div class="question-card">
+            <div class="question-title">2. Which of the following is used to display output in Python?</div>
+            <div class="options">
+                <label><input type="radio" name="mcq2" value="1"> 1. display()</label>
+                <label><input type="radio" name="mcq2" value="2"> 2. echo()</label>
+                <label><input type="radio" name="mcq2" value="3"> 3. print()</label>
+                <label><input type="radio" name="mcq2" value="4"> 4. output()</label>
+            </div>
+        </div>
+
+        <!-- MCQ 3 -->
+        <div class="question-card">
+            <div class="question-title">3. Which data type is used to store whole numbers in Python?</div>
+            <div class="options">
+                <label><input type="radio" name="mcq3" value="1"> 1. int</label>
+                <label><input type="radio" name="mcq3" value="2"> 2. str</label>
+                <label><input type="radio" name="mcq3" value="3"> 3. bool</label>
+                <label><input type="radio" name="mcq3" value="4"> 4. float</label>
+            </div>
+        </div>
+
+        <!-- MCQ 4 -->
+        <div class="question-card">
+            <div class="question-title">4. Which of the following is a valid variable name in Python?</div>
+            <div class="options">
+                <label><input type="radio" name="mcq4" value="1"> 1. 2name</label>
+                <label><input type="radio" name="mcq4" value="2"> 2. my-name</label>
+                <label><input type="radio" name="mcq4" value="3"> 3. my_name</label>
+                <label><input type="radio" name="mcq4" value="4"> 4. class</label>
+            </div>
+        </div>
+
+        <!-- MCQ 5 -->
+        <div class="question-card">
+            <div class="question-title">5. What is the output of ("5" * 2) in Python?</div>
+            <div class="options">
+                <label><input type="radio" name="mcq5" value="1"> 1. 10</label>
+                <label><input type="radio" name="mcq5" value="2"> 2. 22222</label>
+                <label><input type="radio" name="mcq5" value="3"> 3. 55</label>
+                <label><input type="radio" name="mcq5" value="4"> 4. 52</label>
+            </div>
+        </div>
+
+        <h3 style="margin: 20px 0 15px 0; color: #2c3e50;">Q2) Answer in One Word</h3>
+
+        <!-- Text 1 -->
+        <div class="question-card">
+            <div class="question-title">1. Which keyword is used to define a function in Python?</div>
+            <input type="text" id="txt1" placeholder="Your answer here">
+        </div>
+
+        <!-- Text 2 -->
+        <div class="question-card">
+            <div class="question-title">2. Which function is used to take input in Python?</div>
+            <input type="text" id="txt2" placeholder="Your answer here">
+        </div>
+
+        <!-- Text 3 -->
+        <div class="question-card">
+            <div class="question-title">3. What data type stores True or False values?</div>
+            <input type="text" id="txt3" placeholder="Your answer here">
+        </div>
+
+        <!-- Text 4 -->
+        <div class="question-card">
+            <div class="question-title">4. Which keyword is used to create a loop that repeats while a condition is true?</div>
+            <input type="text" id="txt4" placeholder="Your answer here">
+        </div>
+
+        <!-- Text 5 -->
+        <div class="question-card">
+            <div class="question-title">5. What is the name of the Python data type used to store a sequence of characters?</div>
+            <input type="text" id="txt5" placeholder="Your answer here">
+        </div>
+
+        <button class="btn btn-submit" onclick="submitExam()">Submit Examination</button>
+    </div>
+
+    <!-- Screen 3: Result -->
+    <div id="screen-result" class="screen">
+        <div class="result-box">
+            <h2>Examination Result</h2>
+            <p id="res-info" style="margin-top: 8px; color: #555; font-weight: bold;"></p>
+
+            <div id="res-status" class="result-status"></div>
+
+            <div class="score-card">
+                <p id="res-score" style="font-size: 18px; font-weight: bold;"></p>
+                <p id="res-percentage" style="font-size: 16px; margin-top: 5px; color: #2c3e50; font-weight: bold;"></p>
+            </div>
+
+            <button class="btn" onclick="retakeExam()">Retake Examination</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let studentName = "";
+    let studentRoll = "";
+
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    function startExam() {
+        studentName = document.getElementById('name').value.trim();
+        studentRoll = document.getElementById('roll').value.trim();
+
+        if (!studentName || !studentRoll) {
+            alert('Please enter both your Name and Roll Number.');
+            return;
+        }
+
+        document.getElementById('display-name').innerText = "Student: " + studentName;
+        document.getElementById('display-roll').innerText = "Roll No: " + studentRoll;
+
+        showScreen('screen-exam');
+    }
+
+    function submitExam() {
+        if (!confirm("Are you sure you want to submit your exam?")) return;
+
+        let score = 0;
+
+        // MCQs evaluation
+        const mcqAnswers = { mcq1: "2", mcq2: "3", mcq3: "1", mcq4: "3", mcq5: "3" };
+        for (let key in mcqAnswers) {
+            const selected = document.querySelector(`input[name="${key}"]:checked`);
+            if (selected && selected.value === mcqAnswers[key]) {
+                score++;
+            }
+        }
+
+        // Text questions evaluation
+        const t1 = document.getElementById('txt1').value.trim().toLowerCase();
+        if (t1 === "def") score++;
+
+        const t2 = document.getElementById('txt2').value.trim().toLowerCase();
+        if (t2 === "input") score++;
+
+        const t3 = document.getElementById('txt3').value.trim().toLowerCase();
+        if (t3 === "bool" || t3 === "boolean") score++;
+
+        const t4 = document.getElementById('txt4').value.trim().toLowerCase();
+        if (t4 === "while") score++;
+
+        const t5 = document.getElementById('txt5').value.trim().toLowerCase();
+        if (t5 === "str" || t5 === "string") score++;
+
+        // Show Results
+        const percentage = (score / 10) * 100;
+        document.getElementById('res-info').innerText = `Name: ${studentName} | Roll No: ${studentRoll}`;
+        
+        const statusEl = document.getElementById('res-status');
+        if (score >= 4) {
+            statusEl.innerText = "Congratulations! You passed the examination.";
+            statusEl.className = "result-status pass";
+        } else {
+            statusEl.innerText = "Better luck next time. You failed the examination.";
+            statusEl.className = "result-status fail";
+        }
+
+        document.getElementById('res-score').innerText = `Total Marks Obtained: ${score} / 10`;
+        document.getElementById('res-percentage').innerText = `Percentage: ${percentage}%`;
+
+        showScreen('screen-result');
+    }
+
+    function retakeExam() {
+        document.getElementById('name').value = "";
+        document.getElementById('roll').value = "";
+        document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+        for(let i=1; i<=5; i++) {
+            document.getElementById('txt' + i).value = "";
+        }
+        showScreen('screen-welcome');
+    }
+</script>
+
+</body>
+</html>
